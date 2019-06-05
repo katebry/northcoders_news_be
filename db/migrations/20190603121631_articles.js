@@ -6,9 +6,9 @@ exports.up = function(knex, Promise) {
         articlesTable.string("title").notNullable(); 
         articlesTable.text("body").notNullable();
         articlesTable.integer("votes").defaultTo(0);
-        articlesTable.timestamp("created at").defaultTo(knex.fn.now());
-        articlesTable.string("slug").references("topics.slug");
-        articlesTable.string("username").references("users.username")
+        articlesTable.timestamp("created_at").defaultTo(knex.fn.now());
+        articlesTable.string("topic").references("topics.slug");
+        articlesTable.string("author").references("users.username")
     });
 };
 

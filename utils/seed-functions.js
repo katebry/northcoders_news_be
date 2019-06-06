@@ -31,6 +31,5 @@ exports.formatCommentsByArticleId = (comments, createRef) => {
     const article_id = createRef[belongs_to];
     commentsArr.push({ ...restOfComments, article_id });
   });
-  console.log(commentsArr);
   return commentsArr;
 };

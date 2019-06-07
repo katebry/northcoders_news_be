@@ -4,7 +4,7 @@ exports.sendUsers = (req, res, next) => {
   const { username } = req.params;
   fetchUsersByUsername(username)
     .then(user => {
-      if (user.length === 0) {
+      if (!user.length) {
         return Promise.reject({
           status: 404,
           msg: `Invalid username: ${username}`

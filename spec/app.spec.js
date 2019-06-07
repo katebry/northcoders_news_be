@@ -10,7 +10,7 @@ describe("/api", () => {
   after(() => connection.destroy());
 
   describe("/topics", () => {
-    it("GET status: 200, responds with an array of 'topics' objects, each topic object containing the properties 'slug' and 'description'", () => {
+    it("GET status: 200, responds with an array of 'topics' objects, each topic object contains the properties 'slug' and 'description'", () => {
       return request(app)
         .get("/api/topics")
         .expect(200)
@@ -22,13 +22,13 @@ describe("/api", () => {
   });
 
   describe("/users", () => {
-    it("GET status: 200, responds with an array of users, each user object containing the properties 'username', 'avatar-url' and 'name'", () => {
+    it("GET status: 200, responds with an array of users, each user object contains the properties 'username', 'avatar-url' and 'name'", () => {
       return request(app)
         .get("/api/users/butter_bridge")
         .expect(200)
         .then(({ body }) => {
           expect(body.user).to.be.an("array");
-          expect(body.user[0].username).to.eql("butter_bridge");
+          expect(body.user[0].username).to.equal("butter_bridge");
           expect(body.user[0]).to.contain.keys(
             "username",
             "avatar_url",
@@ -47,7 +47,7 @@ describe("/api", () => {
   });
 
   describe("/articles", () => {
-    it("GET status: 200, responds with an array of articles, each article object containing the properties 'author', 'title', 'article_id', 'body', 'topic', 'created_at', 'votes', 'comment_count'", () => {
+    it("GET status: 200, responds with an array of articles, each article object contains the properties 'author', 'title', 'article_id', 'body', 'topic', 'created_at', 'votes', 'comment_count'", () => {
       return request(app)
         .get("/api/articles/1")
         .expect(200)
@@ -66,12 +66,22 @@ describe("/api", () => {
           );
         });
     });
-    it("GET status: 404, responds with a 404 'not found' error when passed a non-existent article", () => {
+    it("GET status: 404, responds with a 404 'Not Found' error when passed a non-existent article", () => {
       return request(app)
         .get("/api/articles/1234567890")
         .expect(404)
         .then(({ body }) => {
           expect(body.msg).to.equal("Invalid article_id: 1234567890");
+        });
+    });
+    it("GET status: 400, responds with a 400 'Bad Request' error when passed an invalid data type", () => {
+      return request(app)
+        .get("/api/articles/invalidId")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).to.equal(
+            'invalid input syntax for integer: "invalidId"'
+          );
         });
     });
   });

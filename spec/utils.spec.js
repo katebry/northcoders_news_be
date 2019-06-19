@@ -177,7 +177,7 @@ describe("formatCommentsByArticleId", () => {
   it("returns an empty array if no values are passed in", () => {
     expect(formatCommentsByArticleId()).to.eql([]);
   });
-  it("returns a single object in an array with the 'belongs_to' key replaced by the 'article_id' key", () => {
+  it("returns a single object in an array with the 'belongs_to' key replaced with the 'article_id' key", () => {
     const createRef = {
       "They're not exactly dogs, are they?": 1
     };

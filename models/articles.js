@@ -24,3 +24,9 @@ exports.postCommentToArticle = (article_id, newComment) => {
     .returning("*")
     .then(([comment]) => comment);
 };
+
+exports.fetchCommentsByArticleId = article_id => {
+  return connection("comments")
+    .where({ "comments.article_id": article_id })
+    .returning("*");
+};

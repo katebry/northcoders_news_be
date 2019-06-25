@@ -1,9 +1,13 @@
-const { fetchArticlesById } = require("../models/articles");
+const {
+  fetchArticlesById,
+  patchArticle,
+  postCommentToArticle
+} = require("../models/articles");
 
 exports.sendArticles = (req, res, next) => {
   const { article_id } = req.params;
   fetchArticlesById(article_id)
-    .then(([article]) => {
+    .then(article => {
       if (!article)
         return Promise.reject({
           status: 404,
@@ -16,4 +20,30 @@ exports.sendArticles = (req, res, next) => {
     });
 };
 
-exports.postArticles = (req, res, next) => {};
+exports.updateArticle = (req, res, next) => {
+  const { article_id } = req.params;
+  const { inc_votes } = req.body;
+  patchArticle(article_id, inc_votes)
+    .then(article => {
+      if (!article)
+        return Promise.reject({
+          status: 404,
+          msg: `Invalid article_id: ${article_id}`
+        });
+      res.status(200).send({ article });
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
+exports.newComment = (req, res, next) => {
+  const { article_id } = req.params;
+  if (req.body.username) req.body.author = req.body.username;
+  delete req.body.username;
+  postCommentToArticle(article_id, req.body)
+    .then(comment => res.status(201).send({ comment }))
+    .catch(err => {
+      next(err);
+    });
+};

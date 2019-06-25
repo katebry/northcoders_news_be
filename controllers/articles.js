@@ -1,7 +1,8 @@
 const {
   fetchArticlesById,
   patchArticle,
-  postCommentToArticle
+  postCommentToArticle,
+  fetchCommentsByArticleId
 } = require("../models/articles");
 
 exports.sendArticles = (req, res, next) => {
@@ -43,6 +44,15 @@ exports.newComment = (req, res, next) => {
   delete req.body.username;
   postCommentToArticle(article_id, req.body)
     .then(comment => res.status(201).send({ comment }))
+    .catch(err => {
+      next(err);
+    });
+};
+
+exports.sendComments = (req, res, next) => {
+  const { article_id } = req.params;
+  fetchCommentsByArticleId(article_id)
+    .then(comments => res.status(200).send({ comments }))
     .catch(err => {
       next(err);
     });

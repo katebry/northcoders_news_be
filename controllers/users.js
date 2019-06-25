@@ -3,7 +3,7 @@ const { fetchUsersByUsername } = require("../models/users");
 exports.sendUsers = (req, res, next) => {
   const { username } = req.params;
   fetchUsersByUsername(username)
-    .then(([user]) => {
+    .then(user => {
       if (!user) {
         return Promise.reject({
           status: 404,

@@ -4,8 +4,11 @@ const {
   sendArticles,
   updateArticle,
   newComment,
-  sendComments
+  sendComments,
+  sendAllArticles
 } = require("../controllers/articles");
+
+articlesRouter.route("/").get(sendAllArticles);
 
 articlesRouter
   .route("/:article_id")

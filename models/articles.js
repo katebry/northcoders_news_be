@@ -25,8 +25,12 @@ exports.postCommentToArticle = (article_id, newComment) => {
     .then(([comment]) => comment);
 };
 
-exports.fetchCommentsByArticleId = article_id => {
+exports.fetchCommentsByArticleId = (
+  article_id,
+  { sort_by = "created_at", order = "descending" }
+) => {
   return connection("comments")
     .where({ "comments.article_id": article_id })
+    .orderBy(sort_by, order)
     .returning("*");
 };

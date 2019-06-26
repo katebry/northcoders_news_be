@@ -51,9 +51,17 @@ exports.newComment = (req, res, next) => {
 
 exports.sendComments = (req, res, next) => {
   const { article_id } = req.params;
-  fetchCommentsByArticleId(article_id)
-    .then(comments => res.status(200).send({ comments }))
+  fetchCommentsByArticleId(article_id, req.query)
+    .then(comments => {
+      if (!comments.length)
+        return Promise.reject({
+          status: 404,
+          msg: `Invalid article_id: ${article_id}`
+        });
+      res.status(200).send({ comments });
+    })
     .catch(err => {
+      console.log(err);
       next(err);
     });
 };

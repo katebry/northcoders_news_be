@@ -16,4 +16,8 @@ app.use(handleCustomErrors);
 app.use(handlePsqlErrors);
 app.use(handleServerErrors);
 
+app.all("/*", (req, res) => {
+  res.status(404).send({ msg: "Resource not found" });
+});
+
 module.exports = app;

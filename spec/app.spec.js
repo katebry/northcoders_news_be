@@ -4,7 +4,10 @@ const app = require("../app");
 const request = require("supertest");
 const chai = require("chai");
 const { expect } = require("chai");
+const chaiSorted = require("chai-sorted");
 const connection = require("../db/connection");
+
+chai.use(chaiSorted);
 
 describe("/api", () => {
   beforeEach(() => connection.seed.run());
@@ -76,7 +79,7 @@ describe("/api", () => {
             expect(body.msg).to.equal("Invalid article_id: 1234567890");
           });
       });
-      it("GET status: 400, responds with a 400 'Bad Request' error when passed an invalid data type", () => {
+      it("GET status: 400, responds with a 400 'Bad Request' error when passed an invalid article_id data type", () => {
         return request(app)
           .get("/api/articles/invalidId")
           .expect(400)
@@ -137,7 +140,7 @@ describe("/api", () => {
             expect(body.msg).to.equal("Invalid article_id: 99999");
           });
       });
-      it("PATCH status: 400, responds with a '400' Bad Request error when passed an invalid data type", () => {
+      it("PATCH status: 400, responds with a '400' Bad Request error when passed an invalid article_id data type", () => {
         return request(app)
           .patch("/api/articles/notanarticle")
           .send({ inc_votes: 31 })
@@ -159,15 +162,87 @@ describe("/api", () => {
             );
           });
       });
-      it("POST status: 201, responds with the posted comment", () => {
-        return request(app)
-          .post("/api/articles/1/comments")
-          .send({ username: "rogersop", body: "An enlightening read" })
-          .expect(201)
-          .then(({ body: { comment } }) => {
-            expect(comment.body).to.equal("An enlightening read");
-            expect(comment.article_id).to.equal(1);
-          });
+
+      describe("/comments", () => {
+        it("POST status: 201, responds with the posted comment", () => {
+          return request(app)
+            .post("/api/articles/1/comments")
+            .send({ username: "rogersop", body: "An enlightening read" })
+            .expect(201)
+            .then(({ body: { comment } }) => {
+              expect(comment.body).to.equal("An enlightening read");
+              expect(comment.article_id).to.equal(1);
+            });
+        });
+        it("POST status: 400, responds with 'Bad Request' when passed a malformed body", () => {
+          return request(app)
+            .post("/api/articles/1/comments")
+            .send({
+              user_id: "rogersop",
+              body_of_comment: "An englightening read"
+            })
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).to.equal(
+                'column "body_of_comment" of relation "comments" does not exist'
+              );
+            });
+        });
+        it("POST status: 400, responds with 'Bad Request' when passed a property that fails schema validation", () => {
+          return request(app)
+            .post("/api/articles/1/comments")
+            .send({ username: 12345, body: "An enlightening read" })
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).to.equal(
+                'insert or update on table "comments" violates foreign key constraint "comments_author_foreign"'
+              );
+            });
+        });
+        it("GET status: 200, responds with an array of 'comments' for the given 'article_id', sorted by the 'created_at' property", () => {
+          return request(app)
+            .get("/api/articles/1/comments?sort_by=created_at")
+            .expect(200)
+            .then(({ body: { comments } }) => {
+              expect(comments).to.be.descendingBy("created_at");
+              expect(comments).to.be.an("Array");
+              expect(comments[0].article_id).to.equal(1);
+              expect(comments[0]).to.contain.keys(
+                "comment_id",
+                "author",
+                "article_id",
+                "votes",
+                "created_at",
+                "body"
+              );
+            });
+        });
+        it("GET status: 404, responds with a 404 'Not Found' error when passed a non-existent article", () => {
+          return request(app)
+            .get("/api/articles/1234567890/comments")
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Invalid article_id: 1234567890");
+            });
+        });
+        it("GET status: 400, responds with a 400 'Bad Request' error when passed an invalid article_id data type", () => {
+          return request(app)
+            .get("/api/articles/invalidId/comments")
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).to.equal(
+                'invalid input syntax for integer: "invalidId"'
+              );
+            });
+        });
+        it("GET status: 400, responds with a 400 'Bad Request' error when passed an invalid query", () => {
+          return request(app)
+            .get("/api/articles/1/comments?sort_by=banana")
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).to.equal('column "banana" does not exist');
+            });
+        });
       });
     });
   });

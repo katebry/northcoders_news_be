@@ -1,6 +1,6 @@
 const connection = require("../db/connection");
 
-exports.fetchArticlesById = article_id => {
+exports.fetchArticleById = article_id => {
   return connection("articles")
     .select("articles.*")
     .count({ comment_count: "comment_id" })
@@ -32,4 +32,20 @@ exports.fetchCommentsByArticleId = (
   return connection("comments")
     .where({ "comments.article_id": article_id })
     .orderBy(sort_by, order);
+};
+
+exports.fetchAllArticles = () => {
+  return connection("articles")
+    .select(
+      "articles.author",
+      "articles.title",
+      "articles.article_id",
+      "articles.topic",
+      "articles.created_at",
+      "articles.votes"
+    )
+    .count({ comment_count: "comment_id" })
+    .leftJoin("comments", "comments.article_id", "articles.article_id")
+    .groupBy("articles.article_id")
+    .then(articles => articles);
 };

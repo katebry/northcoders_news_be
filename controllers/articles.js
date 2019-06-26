@@ -1,13 +1,14 @@
 const {
-  fetchArticlesById,
+  fetchArticleById,
   patchArticle,
   postCommentToArticle,
-  fetchCommentsByArticleId
+  fetchCommentsByArticleId,
+  fetchAllArticles
 } = require("../models/articles");
 
 exports.sendArticles = (req, res, next) => {
   const { article_id } = req.params;
-  fetchArticlesById(article_id)
+  fetchArticleById(article_id)
     .then(article => {
       if (!article)
         return Promise.reject({
@@ -60,6 +61,14 @@ exports.sendComments = (req, res, next) => {
         });
       res.status(200).send({ comments });
     })
+    .catch(err => {
+      next(err);
+    });
+};
+
+exports.sendAllArticles = (req, res, next) => {
+  fetchAllArticles()
+    .then(articles => res.status(200).send({ articles }))
     .catch(err => {
       next(err);
     });

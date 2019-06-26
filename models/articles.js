@@ -27,10 +27,9 @@ exports.postCommentToArticle = (article_id, newComment) => {
 
 exports.fetchCommentsByArticleId = (
   article_id,
-  { sort_by = "created_at", order = "descending" }
+  { sort_by = "created_at", order = "desc" }
 ) => {
   return connection("comments")
     .where({ "comments.article_id": article_id })
-    .orderBy(sort_by, order)
-    .returning("*");
+    .orderBy(sort_by, order);
 };

@@ -67,7 +67,7 @@ exports.sendComments = (req, res, next) => {
 };
 
 exports.sendAllArticles = (req, res, next) => {
-  fetchAllArticles()
+  fetchAllArticles(req.query)
     .then(articles => res.status(200).send({ articles }))
     .catch(err => {
       next(err);

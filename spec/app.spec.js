@@ -19,8 +19,9 @@ describe("/api", () => {
         .get("/api/topics")
         .expect(200)
         .then(({ body: { topics } }) => {
-          expect(topics).to.be.an("Object");
-          expect(topics).to.contain.keys("slug", "description");
+          expect(topics).to.be.an("Array");
+          expect(topics[0]).to.be.an("Object");
+          expect(topics[0]).to.contain.keys("slug", "description");
         });
     });
   });
@@ -314,6 +315,22 @@ describe("/api", () => {
             "created_at",
             "votes"
           );
+        });
+    });
+    it("GET status: 404, responds with 404 when passed an non-existent topic query", () => {
+      return request(app)
+        .get("/api/articles?author=banana")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).to.equal("Resource Not Found");
+        });
+    });
+    it("GET status: 404, responds with 404 when passed an non-existent author query", () => {
+      return request(app)
+        .get("/api/articles?topic=banana")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).to.equal("Resource Not Found");
         });
     });
     it("GET status: 400, responds with a 400 'Bad Request' error when passed an invalid query", () => {

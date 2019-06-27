@@ -17,3 +17,7 @@ exports.handleServerErrors = (err, req, res, next) => {
 exports.sendMethodNotAllowed = (req, res) => {
   res.status(405).send({ msg: "Method Not Allowed" });
 };
+
+exports.resourceNotFound = (req, res) => {
+  res.status(404).send({ msg: "Resource Not Found" });
+};

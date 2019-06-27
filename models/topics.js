@@ -4,5 +4,5 @@ exports.fetchTopics = () => {
   return connection
     .select("*")
     .from("topics")
-    .then(([topic]) => topic);
+    .then(topic => topic);
 };

@@ -8,7 +8,10 @@ const {
   sendAllArticles
 } = require("../controllers/articles");
 
-articlesRouter.route("/").get(sendAllArticles);
+articlesRouter
+  .route("/")
+  .get(sendAllArticles)
+  .all(sendMethodNotAllowed);
 
 articlesRouter
   .route("/:article_id")

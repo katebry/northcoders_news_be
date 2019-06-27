@@ -97,7 +97,7 @@ describe("/api", () => {
           })
           .expect(200)
           .then(({ body: { article } }) => {
-            expect(article.article_id).to.eql(1);
+            expect(article.article_id).to.equal(1);
             expect(article).to.be.an("Object");
             expect(article.votes).to.equal(108);
             expect(article).to.contain.keys(
@@ -243,6 +243,174 @@ describe("/api", () => {
               expect(body.msg).to.equal('column "banana" does not exist');
             });
         });
+      });
+    });
+    it("GET status: 200, responds with an array of 'articles' objects", () => {
+      return request(app)
+        .get("/api/articles")
+        .expect(200)
+        .then(({ body: { articles } }) => {
+          expect(articles).to.be.an("Array");
+          expect(articles[0]).to.be.an("Object");
+          expect(articles[0]).to.contain.keys(
+            "author",
+            "title",
+            "article_id",
+            "comment_count",
+            "topic",
+            "created_at",
+            "votes"
+          );
+        });
+    });
+    it("GET status: 200, responds with an array of 'articles' objects sorted by the 'created_at' property", () => {
+      return request(app)
+        .get("/api/articles?sort_by=created_at")
+        .expect(200)
+        .then(({ body: { articles } }) => {
+          expect(articles).to.be.descendingBy("created_at");
+          expect(articles[0]).to.contain.keys(
+            "author",
+            "title",
+            "article_id",
+            "comment_count",
+            "topic",
+            "created_at",
+            "votes"
+          );
+        });
+    });
+    it("GET status: 200, responds with an array of 'articles' objects sorted by an 'author' query", () => {
+      return request(app)
+        .get("/api/articles?author=rogersop")
+        .expect(200)
+        .then(({ body: { articles } }) => {
+          expect(articles[0].author).to.equal("rogersop");
+          expect(articles).to.be.descendingBy("created_at");
+          expect(articles[0]).to.contain.keys(
+            "author",
+            "title",
+            "article_id",
+            "comment_count",
+            "topic",
+            "created_at",
+            "votes"
+          );
+        });
+    });
+    it("GET status: 200, responds with an array of 'articles' objects sorted by a 'topic' query", () => {
+      return request(app)
+        .get("/api/articles?topic=mitch")
+        .expect(200)
+        .then(({ body: { articles } }) => {
+          expect(articles[0].topic).to.equal("mitch");
+          expect(articles).to.be.descendingBy("created_at");
+          expect(articles[0]).to.contain.keys(
+            "author",
+            "title",
+            "article_id",
+            "comment_count",
+            "topic",
+            "created_at",
+            "votes"
+          );
+        });
+    });
+    it("GET status: 400, responds with a 400 'Bad Request' error when passed an invalid query", () => {
+      return request(app)
+        .get("/api/articles?sort_by=banana")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).to.equal('column "banana" does not exist');
+        });
+    });
+  });
+
+  describe("/comments", () => {
+    describe("/:comment_id", () => {
+      it("PATCH status: 200, responds with an object containing an updated 'votes' property on the specified comment", () => {
+        return request(app)
+          .patch("/api/comments/1")
+          .send({
+            inc_votes: 10
+          })
+          .expect(200)
+          .then(({ body: { comment } }) => {
+            expect(comment.comment_id).to.equal(1);
+            expect(comment.votes).to.equal(26);
+            expect(comment).to.be.an("Object");
+            expect(comment).to.contain.keys(
+              "comment_id",
+              "author",
+              "article_id",
+              "votes",
+              "created_at",
+              "body"
+            );
+          });
+      });
+      it("PATCH status: 200, responds with an updated 'votes' property, ignoring additional properties included in the request", () => {
+        return request(app)
+          .patch("/api/comments/1")
+          .send({ inc_votes: 2, name_of_voter: "me" })
+          .expect(200)
+          .then(({ body: { comment } }) => {
+            expect(comment.votes).to.equal(18);
+            expect(comment.comment_id).to.eql(1);
+            expect(comment).to.be.an("Object");
+            expect(comment).to.contain.keys(
+              "comment_id",
+              "author",
+              "article_id",
+              "votes",
+              "created_at",
+              "body"
+            );
+          });
+      });
+      it("PATCH status: 404, responds with a '404' Not Found error when passed a non-existent article", () => {
+        return request(app)
+          .patch("/api/comments/99999")
+          .send({ inc_votes: 100 })
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("Invalid comment_id: 99999");
+          });
+      });
+      it("PATCH status: 400, responds with a '400' Bad Request error when passed an invalid article_id data type", () => {
+        return request(app)
+          .patch("/api/comments/notanarticle")
+          .send({ inc_votes: 31 })
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).to.equal(
+              'invalid input syntax for integer: "notanarticle"'
+            );
+          });
+      });
+      it("PATCH status: 400, responds with a '400' Bad Request error when passed a malformed body", () => {
+        return request(app)
+          .patch("/api/comments/1")
+          .send({ inc_votes: "banana" })
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).to.equal(
+              'invalid input syntax for integer: "NaN"'
+            );
+          });
+      });
+      it("DELETE status: 204 when passed a valid comment_id", () => {
+        return request(app)
+          .delete("/api/comments/1")
+          .expect(204);
+      });
+      it("DELETE status: 404, responds with 404 when provided a valid, but non-existent, comment_id", () => {
+        return request(app)
+          .delete("/api/comments/9999")
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("Comment with id 9999 not found");
+          });
       });
     });
   });

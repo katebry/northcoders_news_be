@@ -7,3 +7,10 @@ exports.patchVoteCount = (comment_id, updatedVoteCount = 0) => {
     .returning("*")
     .then(([comment]) => comment);
 };
+
+exports.deleteComment = comment_id => {
+  return connection("comments")
+    .delete()
+    .from("comments")
+    .where({ "comments.comment_id": comment_id });
+};

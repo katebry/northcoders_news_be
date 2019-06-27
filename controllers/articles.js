@@ -3,7 +3,8 @@ const {
   patchArticle,
   postCommentToArticle,
   fetchCommentsByArticleId,
-  fetchAllArticles
+  fetchAllArticles,
+  checkExists
 } = require("../models/articles");
 
 exports.sendArticles = (req, res, next) => {
@@ -67,8 +68,20 @@ exports.sendComments = (req, res, next) => {
 };
 
 exports.sendAllArticles = (req, res, next) => {
+  const { topic, author } = req.query;
   fetchAllArticles(req.query)
-    .then(articles => res.status(200).send({ articles }))
+    .then(articles => {
+      const topicExists = topic ? checkExists(topic, "topics", "slug") : null;
+      const authorExists = author
+        ? checkExists(author, "users", "username")
+        : null;
+      return Promise.all([topicExists, authorExists, articles]);
+    })
+    .then(([topicExists, authorExists, articles]) => {
+      if (topicExists === false || authorExists === false)
+        return Promise.reject({ status: 404, msg: "Resource Not Found" });
+      else res.status(200).send({ articles });
+    })
     .catch(err => {
       next(err);
     });

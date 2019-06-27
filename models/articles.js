@@ -1,5 +1,15 @@
 const connection = require("../db/connection");
 
+exports.checkExists = (value, table, column) => {
+  return connection
+    .select("*")
+    .from(table)
+    .where(column, value)
+    .then(rows => {
+      return rows.length !== 0;
+    });
+};
+
 exports.fetchArticleById = article_id => {
   return connection("articles")
     .select("articles.*")

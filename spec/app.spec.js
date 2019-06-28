@@ -189,11 +189,25 @@ describe("/api", () => {
               );
             });
         });
-        it("POST status: 400, responds with 'Bad Request' when passed a property that fails schema validation", () => {
+        it("POST stauts: 404, responds with 'Not Found' when passed a valid but non-existent article_id", () => {
+          return request(app)
+            .post("/api/articles/10000/comments")
+            .send({
+              username: "rogersop",
+              body: "An englightening read"
+            })
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.msg).to.equal(
+                'insert or update on table "comments" violates foreign key constraint "comments_article_id_foreign"'
+              );
+            });
+        });
+        it("POST status: 404, responds with 'Not Found' when passed a property that fails schema validation", () => {
           return request(app)
             .post("/api/articles/1/comments")
             .send({ username: 12345, body: "An enlightening read" })
-            .expect(400)
+            .expect(404)
             .then(({ body }) => {
               expect(body.msg).to.equal(
                 'insert or update on table "comments" violates foreign key constraint "comments_author_foreign"'

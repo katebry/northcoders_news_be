@@ -200,6 +200,17 @@ describe("/api", () => {
               );
             });
         });
+        it("POST status: 400, responds with 'Bad Request' when passed a request missing required keys", () => {
+          return request(app)
+            .post("/api/articles/1/comments")
+            .send({ username: "rogersop" })
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).to.equal(
+                'null value in column "body" violates not-null constraint'
+              );
+            });
+        });
         it("GET status: 200, responds with an array of 'comments' for the given 'article_id', sorted by the 'created_at' property", () => {
           return request(app)
             .get("/api/articles/1/comments?sort_by=created_at")
@@ -216,6 +227,15 @@ describe("/api", () => {
                 "created_at",
                 "body"
               );
+            });
+        });
+        it("GET status: 200, responds with an empty array when passed an article with no comments", () => {
+          return request(app)
+            .get("/api/articles/2/comments")
+            .expect(200)
+            .then(({ body: { comments } }) => {
+              expect(comments).to.be.an("Array");
+              expect(comments).to.eql([]);
             });
         });
         it("GET status: 404, responds with a 404 'Not Found' error when passed a non-existent article", () => {

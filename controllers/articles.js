@@ -45,7 +45,14 @@ exports.newComment = (req, res, next) => {
   if (req.body.username) req.body.author = req.body.username;
   delete req.body.username;
   postCommentToArticle(article_id, req.body)
-    .then(comment => res.status(201).send({ comment }))
+    .then(comment => {
+      if (!comment)
+        return Promise.reject({
+          status: 404,
+          msg: `Invalid article_id: ${article_id}`
+        });
+      else res.status(201).send({ comment });
+    })
     .catch(err => {
       next(err);
     });

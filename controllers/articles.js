@@ -46,7 +46,13 @@ exports.newComment = (req, res, next) => {
   delete req.body.username;
   postCommentToArticle(article_id, req.body)
     .then(comment => {
-      if (!comment)
+      const articleExists = article_id
+        ? checkExists(article_id, "articles", "article_id")
+        : null;
+      return Promise.all([articleExists, comment]);
+    })
+    .then(([articleExists, comment]) => {
+      if (articleExists === false)
         return Promise.reject({
           status: 404,
           msg: `Invalid article_id: ${article_id}`

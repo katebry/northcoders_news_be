@@ -55,12 +55,18 @@ exports.sendComments = (req, res, next) => {
   const { article_id } = req.params;
   fetchCommentsByArticleId(article_id, req.query)
     .then(comments => {
-      if (!comments.length)
+      const articleExists = article_id
+        ? checkExists(article_id, "articles", "article_id")
+        : null;
+      return Promise.all([articleExists, comments]);
+    })
+    .then(([articleExists, comments]) => {
+      if (articleExists === false)
         return Promise.reject({
           status: 404,
           msg: `Invalid article_id: ${article_id}`
         });
-      res.status(200).send({ comments });
+      else res.status(200).send({ comments });
     })
     .catch(err => {
       next(err);

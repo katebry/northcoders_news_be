@@ -1,110 +1,140 @@
 {
-  "GET /api": {
-    "description": "provides information about the available endpoints"
-  },
-  "GET /topics": {
-    "description": "serves an array of all topics",
-    "exampleResponse": {
-      "topics": [
-        { "slug": "football", "description": "Footie!" },
-        {
-          "slug": "mitch",
-          "description": "The man, the Mitch, the legend"
-        }
-      ]
-    }
-  },
-  "GET /articles": {
-    "description": "serves an array of all articles",
-    "queries": ["author", "topic", "sort_by", "order"],
-    "exampleResponse": {
-      "articles": [
-        {
-          "title": "Seafood substitutions are increasing",
-          "topic": "cooking",
-          "author": "weegembump",
-          "body": "Text from the article..",
-          "created_at": 1527695953341
-        }
-      ]
-    }
-  },
-  "GET /articles/:article_id": {
-    "description": "serves an article object specified by the article_id",
-    "exampleResponse": {
-      "article": {
-        "article_id": 4,
-        "title": "Making sense of Redux",
-        "body": "When I first started learning React, I remember reading lots of articles about the different technologies associated with it. In particular, this one article stood out. It mentions how confusing the ecosystem is, and how developers often feel they have to know ALL of the ecosystem before using React. And as someone who’s used React daily for the past 8 months or so, I can definitely say that I’m still barely scratching the surface in terms of understanding how the entire ecosystem works! But my time spent using React has given me some insight into when and why it might be appropriate to use another technology — Redux (a variant of the Flux architecture).",
-        "votes": 0,
-        "created_at": "2017-12-24T05:38:51.240Z",
-        "topic": "coding",
-        "author": "jessjelly",
-        "comment_count": "9"
-      }
-    }
-  },
-  "PATCH /articles/:article_id": {
-    "description": "serves an article object with an updated 'votes' property",
-    "send": {
-      "inc_votes": 2
+  "/api": {
+    "GET": {
+      "description": "Provides information about the available endpoints"
     },
-    "exampleResponse": {
-      "article": {
-        "article_id": 4,
-        "title": "Making sense of Redux",
-        "body": "When I first started learning React, I remember reading lots of articles about the different technologies associated with it. In particular, this one article stood out. It mentions how confusing the ecosystem is, and how developers often feel they have to know ALL of the ecosystem before using React. And as someone who’s used React daily for the past 8 months or so, I can definitely say that I’m still barely scratching the surface in terms of understanding how the entire ecosystem works! But my time spent using React has given me some insight into when and why it might be appropriate to use another technology — Redux (a variant of the Flux architecture).",
-        "votes": 2,
-        "created_at": "2017-12-24T05:38:51.240Z",
-        "topic": "coding",
-        "author": "jessjelly",
-        "comment_count": "9"
+    "/topics": {
+      "GET": {
+        "description": "Returns an array of topics",
+        "exampleResponse": {
+          "topics": [
+            { "slug": "football", "description": "Footie!" },
+            {
+              "slug": "mitch",
+              "description": "The man, the Mitch, the legend"
+            }
+          ]
+        }
       }
-    }
-  },
-  "GET /articles/:article_id/comments": {
-    "description": "serves an array of comments specified by the article_id",
-    "exampleResponse": {
-      "comments": [
-        {
-          "comment_id": 102,
-          "username": "jessjelly",
-          "article_id": 2,
-          "votes": 10,
-          "created_at": "2018-01-26T10:05:00.847Z",
-          "body": "Quia quos adipisci sint expedita voluptatem id ut at accusantium. Et ex itaque recusandae aut quo. Quia quam similique eum quidem iusto. Aspernatur ducimus vitae vel natus doloribus qui id. Excepturi voluptatem qui quia sit qui eveniet voluptatem. Fugit itaque libero quibusdam sunt."
+    },
+    "/articles": {
+      "GET": {
+        "description": "Returns an array of articles",
+        "queries": ["author", "topic", "sort_by", "order"],
+        "exampleResponse": {
+          "articles": [
+            {
+              "title": "Seafood substitutions are increasing",
+              "topic": "cooking",
+              "author": "weegembump",
+              "body": "Text from the article..",
+              "created_at": 1527695953341
+            }
+          ]
+        }
+      },
+      "/articles/:article_id": {
+        "GET": {
+          "description": "Returns an article object specified by the article_id",
+          "exampleResponse": {
+            "article": {
+              "article_id": 4,
+              "title": "Making sense of Redux",
+              "body": "When I first started learning React, I remember reading lots of articles about the different technologies associated with it. In particular, this one article stood out. It mentions how confusing the ecosystem is, and how developers often feel they have to know ALL of the ecosystem before using React. And as someone who’s used React daily for the past 8 months or so, I can definitely say that I’m still barely scratching the surface in terms of understanding how the entire ecosystem works! But my time spent using React has given me some insight into when and why it might be appropriate to use another technology — Redux (a variant of the Flux architecture).",
+              "votes": 0,
+              "created_at": "2017-12-24T05:38:51.240Z",
+              "topic": "coding",
+              "author": "jessjelly",
+              "comment_count": "9"
+            }
+          }
         },
-        {
-          "comment_id": 134,
-          "username": "jessjelly",
-          "article_id": 2,
-          "votes": 7,
-          "created_at": "2017-08-21T01:05:57.848Z",
-          "body": "Nam qui vel neque aut. Quas quos nisi. Eum praesentium quasi commodi saepe assumenda sed vel. Nostrum qui magnam aut occaecati exercitationem aut voluptatibus."
+        "PATCH": {
+          "description": "Returns an article object with an updated 'votes' property",
+          "send": {
+            "inc_votes": 2
+          },
+          "exampleResponse": {
+            "article": {
+              "article_id": 4,
+              "title": "Making sense of Redux",
+              "body": "When I first started learning React, I remember reading lots of articles about the different technologies associated with it. In particular, this one article stood out. It mentions how confusing the ecosystem is, and how developers often feel they have to know ALL of the ecosystem before using React. And as someone who’s used React daily for the past 8 months or so, I can definitely say that I’m still barely scratching the surface in terms of understanding how the entire ecosystem works! But my time spent using React has given me some insight into when and why it might be appropriate to use another technology — Redux (a variant of the Flux architecture).",
+              "votes": 2,
+              "created_at": "2017-12-24T05:38:51.240Z",
+              "topic": "coding",
+              "author": "jessjelly",
+              "comment_count": "9"
+            }
+          }
+        },
+        "/articles/:article_id/comments": {
+          "GET": {
+            "description": "Returns an array of comments specified by the article_id",
+            "exampleResponse": {
+              "comments": [
+                {
+                  "comment_id": 102,
+                  "username": "jessjelly",
+                  "article_id": 2,
+                  "votes": 10,
+                  "created_at": "2018-01-26T10:05:00.847Z",
+                  "body": "Quia quos adipisci sint expedita voluptatem id ut at accusantium. Et ex itaque recusandae aut quo. Quia quam similique eum quidem iusto. Aspernatur ducimus vitae vel natus doloribus qui id. Excepturi voluptatem qui quia sit qui eveniet voluptatem. Fugit itaque libero quibusdam sunt."
+                },
+                {
+                  "comment_id": 134,
+                  "username": "jessjelly",
+                  "article_id": 2,
+                  "votes": 7,
+                  "created_at": "2017-08-21T01:05:57.848Z",
+                  "body": "Nam qui vel neque aut. Quas quos nisi. Eum praesentium quasi commodi saepe assumenda sed vel. Nostrum qui magnam aut occaecati exercitationem aut voluptatibus."
+                }
+              ]
+            }
+          }
+        },
+        "/articles/article_id/comments": {
+          "POST": {
+            "description": "Returns an array of comments with the newly posted comment",
+            "send": {
+              "username": "jessjelly",
+              "body": "Great article - a must read!"
+            },
+            "exampleResponse": {
+              "comments": [
+                {
+                  "comment_id": 234,
+                  "author": "jessjelly",
+                  "article_id": 2,
+                  "votes": 0,
+                  "created_at": "YYYY-MM-DD'T'HH:MM:SS.SSS'Z'",
+                  "body": "Great article - a must read!"
+                }
+              ]
+            }
+          }
         }
-      ]
-    }
-  },
-  "POST /articles/article_id/comments": {
-    "description": "serves a comments array with a newly posted comment",
-    "send": {
-      "username": "jessjelly",
-      "body": "Great article - a must read!"
+      }
     },
-    "exampleResponse": {
-      "comments": [
-        {
-          "comment_id": 234,
-          "author": "jessjelly",
-          "article_id": 2,
-          "votes": 0,
-          "created_at": "YYYY-MM-DD'T'HH:MM:SS.SSS'Z'",
-          "body": "Great article - a must read!"
-        }
-      ]
+    "/comments/:comment_id": {
+      "DELETE": {
+        "description": "Returns  status: 204"
+      },
+      "PATCH": {
+        "description": "Returns a specified comment with an updated 'votes' property",
+        "send": {
+          "inc_votes": 2
+        },
+        "comments": [
+          {
+            "comment_id": 44,
+            "author": "grumpy19",
+            "article_id": 1,
+            "votes": 6,
+            "created_at": "2017-11-20T08:58:48.322Z",
+            "body": "Error est qui id corrupti et quod enim accusantium minus. Deleniti quae ea magni officiis et qui suscipit non."
+          }
+        ]
+      }
     }
-  },
-  "DELETE /comments/:comment_id": {
-    "description": "serves a status 204"
   }
 }

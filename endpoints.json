@@ -7,13 +7,7 @@
       "GET": {
         "description": "Returns an array of topics",
         "exampleResponse": {
-          "topics": [
-            { "slug": "football", "description": "Footie!" },
-            {
-              "slug": "mitch",
-              "description": "The man, the Mitch, the legend"
-            }
-          ]
+          "topics": [{ "slug": "football", "description": "Footie!" }]
         }
       }
     },
@@ -79,14 +73,6 @@
                   "votes": 10,
                   "created_at": "2018-01-26T10:05:00.847Z",
                   "body": "Quia quos adipisci sint expedita voluptatem id ut at accusantium. Et ex itaque recusandae aut quo. Quia quam similique eum quidem iusto. Aspernatur ducimus vitae vel natus doloribus qui id. Excepturi voluptatem qui quia sit qui eveniet voluptatem. Fugit itaque libero quibusdam sunt."
-                },
-                {
-                  "comment_id": 134,
-                  "username": "jessjelly",
-                  "article_id": 2,
-                  "votes": 7,
-                  "created_at": "2017-08-21T01:05:57.848Z",
-                  "body": "Nam qui vel neque aut. Quas quos nisi. Eum praesentium quasi commodi saepe assumenda sed vel. Nostrum qui magnam aut occaecati exercitationem aut voluptatibus."
                 }
               ]
             }

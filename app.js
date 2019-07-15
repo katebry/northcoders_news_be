@@ -7,11 +7,10 @@ const {
   handleServerErrors,
   resourceNotFound
 } = require("./errors");
-
 const apiRouter = require("./routes/apiRouter");
+app.use(cors());
 
 app.use(express.json());
-app.use(cors());
 
 app.use("/api", apiRouter);
 app.all("/*", resourceNotFound);

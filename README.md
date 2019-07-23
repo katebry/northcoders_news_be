@@ -19,16 +19,24 @@ For the endpoints, testing was carried out using SuperTest.
 Dependencies:
 
 Knex 0.17.6
+
 PostGresQL 11
+
 Node Postgres 7.11.0
+
 
 Dev Dependencies:
 
 Express 4.17.1
+
 Chai 4.2.0
+
 Chai-sorted 0.2.0
+
 Mocha 6.1.4
+
 Supertest 4.0.2
+
 Nodemon 1.19.1
 
 ---

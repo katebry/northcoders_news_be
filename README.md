@@ -72,9 +72,9 @@ const customConfigs = {
 module.exports = { ...baseConfig, ...customConfigs[ENV] };
 ```
 
-*Please note: if you are using a Linux system, you will need to include your PostgreSQL username and password within this file. 
+*Please note: if you are using a Linux system, you will need to include your PostgreSQL username and password within this file.*
 
-Don't forget to .gitignore this file if you intend on re-using this repository!* 
+*Don't forget to .gitignore this file if you intend on re-using this repository!* 
 
 
 

@@ -47,7 +47,7 @@ Nodemon 1.19.1
 
 **2.** Install the above dependencies using the `npm install` command followed by the dependency name. 
 
-**3.** Create a file in the root directory and name this 'knexfile.js'. Copy the following code into this file:
+**3.** Create a file in the root directory and name this 'knexfile.js'. Copy the following code into the file:
 
 ```
 const { DB_URL } = process.env;
@@ -71,6 +71,10 @@ const customConfigs = {
 
 module.exports = { ...baseConfig, ...customConfigs[ENV] };
 ```
+
+*Please note: if you are using a Linux system, you will need to include your PostgreSQL username and password within this file. Don't forget to .gitignore this file if you intend on re-using this repository!* 
+
+
 
 
 

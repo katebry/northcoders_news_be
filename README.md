@@ -77,15 +77,19 @@ module.exports = { ...baseConfig, ...customConfigs[ENV] };
 *Don't forget to .gitignore this file if you intend on re-using this repository!* 
 
 
-**4.** To setup the required databases, run the following commands:
+**4.** To set-up the required databases, run the following commands:
 
 ```
 $ npm run setup-dbs
 
 $ npm run seed
-
 ```
 
+---
+
+### **Heroku Link** ###
+
+https://ncnews-round.herokuapp.com/
 
 
 

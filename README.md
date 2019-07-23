@@ -41,3 +41,37 @@ Nodemon 1.19.1
 
 
 ---
+### **Set-Up** ###
+
+**1.** Fork then clone the repository onto your local machine. 
+
+**2.** Install the above dependencies using the `npm install` command followed by the dependency name. 
+
+**3.** Create a file in the root directory and name this 'knexfile.js'. Copy the following code into this file:
+
+```
+const { DB_URL } = process.env;
+const ENV = process.env.NODE_ENV || "development";
+
+const baseConfig = {
+  client: "pg",
+  migrations: {
+    directory: "./db/migrations"
+  },
+  seeds: {
+    directory: "./db/seeds"
+  }
+};
+
+const customConfigs = {
+  production: { connection: `${DB_URL}?ssl=true` },
+  development: { connection: { database: "ncnews" } },
+  test: { connection: { database: "ncnews_test" } }
+};
+
+module.exports = { ...baseConfig, ...customConfigs[ENV] };
+```
+
+
+
+

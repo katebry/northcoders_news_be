@@ -77,6 +77,16 @@ module.exports = { ...baseConfig, ...customConfigs[ENV] };
 *Don't forget to .gitignore this file if you intend on re-using this repository!* 
 
 
+**4.** To setup the required databases, run the following commands:
+
+```
+$ npm run setup-dbs
+
+$ npm run seed
+
+```
+
+
 
 
 

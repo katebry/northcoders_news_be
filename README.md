@@ -91,6 +91,12 @@ $ npm run seed
 
 https://ncnews-round.herokuapp.com/
 
+---
+
+### **Author** ###
+
+Kate Bryan 
+
 
 
 

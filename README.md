@@ -20,7 +20,7 @@ For the endpoints, testing was carried out using SuperTest.
 
 Knex 0.17.6
 
-PostGresQL 11
+PostgreSQL 11
 
 Node Postgres 7.11.0
 

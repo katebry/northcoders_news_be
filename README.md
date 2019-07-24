@@ -84,12 +84,13 @@ $ npm run setup-dbs
 
 $ npm run seed
 ```
-
 ---
 
-### **Heroku Link** ###
+### **Available Endpoints** ###
 
-https://ncnews-round.herokuapp.com/
+To view the available endpoints, click on the following link:
+
+https://ncnews-round.herokuapp.com/api
 
 ---
 

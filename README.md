@@ -10,7 +10,7 @@ It was created during my time at Northcoders, for the 'Northcoders News' back-en
 
 The database was created using PSQL and the subsequent interactions were handled with Knex. 
 
-Full TDD was employed during the seeding of the database, making use of both Mocha and Chai.
+Full TDD was used during the seeding of the database, making use of both Mocha and Chai.
 
 For the endpoints, testing was carried out using SuperTest. 
 

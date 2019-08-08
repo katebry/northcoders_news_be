@@ -44,7 +44,7 @@ Nodemon 1.19.1
 
 ---
 
-### **Set-Up** ###
+### **Set-Up** 
 
 **1.** Fork then clone the repository onto your local machine. 
 
@@ -89,7 +89,7 @@ $ npm run seed
 ```
 ---
 
-### **Available Endpoints** ###
+### **Available Endpoints**
 
 To view the available endpoints, click on the following link:
 
@@ -97,7 +97,7 @@ https://ncnews-round.herokuapp.com/api
 
 ---
 
-### **Author** ###
+### **Author** 
 
 Kate Bryan 
 

@@ -1,8 +1,9 @@
 # **READ ME**
 
-## **NCNEWS-Round**
+## **NCNEWS Round**
 
 ---
+
 ### **About**
 This repository contains the code for a RESTful API news website, modelled on Reddit. 
 
@@ -15,6 +16,7 @@ Full TDD was used during the seeding of the database, making use of both Mocha a
 For the endpoints, testing was carried out using SuperTest. 
 
 ---
+
 ### **Prerequisites**
 **Dependencies:**
 
@@ -41,6 +43,7 @@ Nodemon 1.19.1
 
 
 ---
+
 ### **Set-Up** ###
 
 **1.** Fork then clone the repository onto your local machine. 

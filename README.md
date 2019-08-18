@@ -18,16 +18,19 @@ For the endpoints, testing was carried out using SuperTest.
 ---
 
 ### **Prerequisites**
-**Dependencies:**
 
-Knex 0.17.6
+Node v12.3.1
 
-PostgreSQL 11
+Npm v6.9.2
 
 Node Postgres 7.11.0
 
 
 **Dev Dependencies:**
+
+Knex 0.17.6
+
+PostgreSQL 11
 
 Express 4.17.1
 

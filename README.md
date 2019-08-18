@@ -23,26 +23,26 @@ Node v12.3.1
 
 Npm v6.9.2
 
-Node Postgres 7.11.0
+Node Postgres v7.11.0
 
 
 **Dev Dependencies:**
 
-Knex 0.17.6
+Knex v0.17.6
 
-PostgreSQL 11
+PostgreSQL v11
 
-Express 4.17.1
+Express v4.17.1
 
-Chai 4.2.0
+Chai v4.2.0
 
-Chai-sorted 0.2.0
+Chai-sorted v0.2.0
 
-Mocha 6.1.4
+Mocha v6.1.4
 
-Supertest 4.0.2
+Supertest v4.0.2
 
-Nodemon 1.19.1
+Nodemon v1.19.1
 
 
 ---
